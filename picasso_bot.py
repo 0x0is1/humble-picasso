@@ -18,7 +18,9 @@ from discord.ext import commands
 from discord.ext.commands.errors import CommandInvokeError, CommandNotFound
 
 # instances
-bot = commands.Bot(command_prefix="picasso ")
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="picasso ", intents=intents)
 generator = dallemini.ImageGenerator()
 
 client_id = os.environ.get('IMGUR_CLIENT_ID')
