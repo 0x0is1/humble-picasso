@@ -28,7 +28,9 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
     print('[*] Bot Status: Online')
-
+    data = "Dream of you Imagination"
+    await bot.change_presence(activity=discord.Game(name=data), status=discord.Status.idle)
+    
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -41,14 +43,18 @@ async def on_reaction_add(reaction, user):
         ids, curr_idx = id_parser.parse_id(raw_sessionid)
         if reaction == '⬅️' and curr_idx > 0:
             idx = curr_idx-1
+            keywords = message.embeds[0].fields[0].name
+            draw_embed = embeds.draw_embed(keywords, ids, idx, user)
+            await message.edit(embed=draw_embed)
         if reaction == '➡️' and curr_idx < len(ids):
             idx = curr_idx + 1
+            keywords = message.embeds[0].fields[0].name
+            draw_embed = embeds.draw_embed(keywords, ids, idx, user)
+            await message.edit(embed=draw_embed)
         if reaction == '❌':
             await message.delete()
             return
-        keywords = message.embeds[0].fields[0].name
-        draw_embed = embeds.draw_embed(keywords, ids, idx)
-        await message.edit(embed=draw_embed)
+
         
 @bot.event
 async def on_command_error(ctx, error):
@@ -83,17 +89,20 @@ async def credits(ctx):
 
 @bot.command(aliases=['make', 'create', 'gen', 'generate'])
 async def draw(ctx, *, keywords):
+    draw_embed = embeds.draw_embed3(keywords, ctx.author)
+    msg = await ctx.send(embed=draw_embed)
     image_ids = generator.get_image(keywords, client_id)
     if type(image_ids) == list:
-        draw_embed = embeds.draw_embed(keywords, image_ids, 0)
-        msg = await ctx.send(embed=draw_embed)
+        draw_embed = embeds.draw_embed(keywords, image_ids, 0, ctx.author)
+        await msg.edit(embed=draw_embed)
         await msg.add_reaction('⬅️')
         await msg.add_reaction('➡️')
         await msg.add_reaction('❌')
     else:
+        await msg.delete()
         data = io.BytesIO(base64.b64decode(image_ids))
         filename = uuid.uuid4()
         file = discord.File(data, f'{filename}.jpg')
-        draw_embed = embeds.draw_embed2(keywords, filename)
-        msg = await ctx.send(embed=draw_embed, file=file)
+        draw_embed = embeds.draw_embed2(keywords, filename, ctx.author)
+        await ctx.send(embed=draw_embed, file=file)
 

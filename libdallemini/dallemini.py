@@ -4,7 +4,7 @@ import logging
 from ..utils.misc import *
 import os
 '''
-logging.basicConfig(filename="events.log", level=logging.DEBUG,format="%(asctime)s %(message)s")
+logging.basicConfig(filename="events.log", filemode='w', level=logging.DEBUG,format="%(asctime)s %(message)s")
 
 class ImageGenerator:
     def __init__(self):
