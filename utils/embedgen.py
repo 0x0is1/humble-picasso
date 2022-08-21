@@ -1,12 +1,13 @@
 import discord
 
 def draw_embed(keyword, ids, c_idx, author):
+    keyword = keyword.split(' (*')[0]
     text = ''
     for i in ids: text += f'-{i}'
     text += f'-{c_idx}'
     embed = discord.Embed(title="Humble Picasso", color=0xb0e0e6)
     embed.add_field(
-        name=f"{keyword}", value=f'[.](https://www.example.com/?id={text})', inline=True)
+        name=f"{keyword} (*{c_idx+1}/10*)", value=f'[.](https://www.example.com/?id={text})', inline=True)
     try:
         embed.set_image(url=f'https://i.imgur.com/{ids[c_idx]}.jpg')
     except IndexError:
