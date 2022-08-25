@@ -6,7 +6,7 @@
 
 
 ## Description
-`Humble Picasso` is a discord bot made with Craiyon API and Imgur API developed by [0x0is1](https://github.com/0x0is1) to use Dalle mini features directly to your discord server.
+`Humble Picasso` is a discord bot made with `Craiyon API` and `Imgur API` to use Dalle mini features directly to your discord server.
 
 ## Install
 You can [invite](https://discord.com/api/oauth2/authorize?client_id=1010900722147151902&permissions=125000&scope=bot) link to call this bot your discord server.
